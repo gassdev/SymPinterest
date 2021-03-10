@@ -1,12 +1,16 @@
 {% extends 'layouts/base.html.twig' %}
 
 {% block body %}
-	<h1>Create Pin</h1>
-
-	{{ include ("pins/_form.html.twig") }}
-
-
+  <div class="row">
+    <div class="col-md-6 mx-auto">
+      <h1>
+        Create Pin
+      </h1>
+      {{ include('pins/_form.html.twig') }}
+    </div>
+  </div>
 {% endblock %}
 
-
-{% block title "New Pin" %}
+{% block title %}
+  New Pin
+{% endblock %}
