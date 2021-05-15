@@ -109,7 +109,10 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements
         $request
             ->getSession()
             ->getFlashBag()
-            ->add('success', 'Logged in successfully!');
+            ->add(
+                'success',
+                'Welcome ' . $token->getUser()->getFullName() . '!'
+            );
 
         if (
             $targetPath = $this->getTargetPath(
