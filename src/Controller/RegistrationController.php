@@ -36,6 +36,10 @@ class RegistrationController extends AbstractController
         LoginFormAuthenticator $authenticator,
         EntityManagerInterface $entityManager
     ): Response {
+        if ($this->getUser()) {
+            $this->addFlash('error', 'Already logged in');
+            return $this->redirectToRoute('app_home');
+        }
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
