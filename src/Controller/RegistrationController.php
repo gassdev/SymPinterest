@@ -36,10 +36,10 @@ class RegistrationController extends AbstractController
         LoginFormAuthenticator $authenticator,
         EntityManagerInterface $entityManager
     ): Response {
-        if ($this->getUser()) {
-            $this->addFlash('error', 'Already logged in');
-            return $this->redirectToRoute('app_home');
-        }
+        // if ($this->getUser()) {
+        //     $this->addFlash('error', 'Already logged in');
+        //     return $this->redirectToRoute('app_home');
+        // }
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -63,8 +63,8 @@ class RegistrationController extends AbstractController
                 (new TemplatedEmail())
                     ->from(
                         new Address(
-                            'noreply@sympinterest.com',
-                            'SymPinterest Bot'
+                            $this->getParameter('app.mail_from_address'),
+                            $this->getParameter('app.mail_from_name')
                         )
                     )
                     ->to($user->getEmail())
