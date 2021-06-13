@@ -10,6 +10,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PinsController extends AbstractController
@@ -26,6 +28,7 @@ class PinsController extends AbstractController
 
     /**
      * @Route("/pins/create", name="app_pins_create", methods={"GET", "POST"})
+     * @IsGranted("PIN_CREATE")
      */
     public function create(
         Request $request,
@@ -64,6 +67,7 @@ class PinsController extends AbstractController
 
     /**
      * @Route("/pin/{id<[0-9]+>}/edit/", name="app_pins_edit", methods={"GET", "PUT"})
+     * @IsGranted("PIN_MANAGE", subject="pin")
      */
     public function edit(
         Request $request,
@@ -98,6 +102,7 @@ class PinsController extends AbstractController
         Pin $pin,
         EntityManagerInterface $em
     ): Response {
+        $this->denyAccessUnlessGranted('PIN_MANAGE', $pin);
         if (
             $this->isCsrfTokenValid(
                 'pin_deletion_' . $pin->getId(),
